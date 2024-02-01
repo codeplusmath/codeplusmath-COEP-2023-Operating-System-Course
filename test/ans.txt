@@ -1,0 +1,195 @@
+[1:47 pm, 16/01/2022] 1.094.795.585: Select correct statement about memory address translation on 8086
+
+a.
+size of address space is 64 KB
+
+b.
+size of address space is 2 MB
+
+c.
+size of address space is 1 MB
+
+d.
+size of address space is configurable
+[1:47 pm, 16/01/2022] Pande Rutvik: c
+[1:48 pm, 16/01/2022] 1.094.795.585: Match the pairs
+
+a.
+-> .out
+
+b.
+GOFF -> no extension
+
+c.
+PE -> .EXE
+
+d.
+ELF -> no extension
+
+e.
+-> .elf
+
+f.
+COM -> .COM
+
+g.
+CMD -> .CMD
+
+h.
+a.out -> no extension
+[1:48 pm, 16/01/2022] Pande Rutvik: c
+[1:48 pm, 16/01/2022] 1.094.795.585: Select the correct statement about FLAGS register
+
+a.
+values in the FLAGS register are set automatically in hardware depending on result of the current machine instruction
+
+b.
+values in the FLAGS register are set automatically by kernel depending on result of the previous machine instruction
+
+c.
+values in the FLAGS register are set automatically in hardware depending on result of the previous machine instruction
+
+d.
+values in the FLAGS register are set automatically by kernel depending on result of the current machine instruction
+[1:48 pm, 16/01/2022] Pande Rutvik: c
+[1:49 pm, 16/01/2022] 1.094.795.585: Select correct statement about memory address translation on 8086
+
+
+a.
+Out of 20 bits of address, 16 bits are additionally contributed by segment register
+
+b.
+Out of 20 bits of address, 20 bits are additionally contributed by segment register
+
+c.
+Out of 20 bits of address, 4 bits are additionally contributed by segment register
+
+d.
+Out of 20 bits of address, 10 bits are additionally contributed by segment register
+[1:49 pm, 16/01/2022] Pande Rutvik: a
+[1:50 pm, 16/01/2022] 1.094.795.585: Why does 8086 have segments?
+
+a.
+The OS is divided into segments, hence to support it the processor has segment registers
+
+b.
+Processor manufacturers wanted system developers to visualize a program divided into "segments", each segment addressed by a segment register
+
+c.
+A program is divided into segments, hence to support it the processor has segment registers
+
+d.
+Processor manufacturers wanted to do something different from competitors
+[1:50 pm, 16/01/2022] Pande Rutvik: b
+[1:51 pm, 16/01/2022] 1.094.795.585: What does a compiler do ?
+
+a.
+converts the source code into machine code, and saves machine code in processor.
+
+b.
+converts the source code into machine code, and gives it to the OS to execute.
+
+c.
+Reports syntax errors if any in the program.
+
+d.
+converts the source code into machine code, and executed the program.
+
+e.
+converts the source code into machine code, and saves machine code in a file on hard disk. The output file has formatting determined by the processor.
+
+f.
+converts the source code into machine code, and saves machine code in a file on hard disk. The output file has formatting determined by the OS+processor.
+[1:51 pm, 16/01/2022] Pande Rutvik: f
+[1:52 pm, 16/01/2022] 1.094.795.585: What is a.out ?
+
+a.
+The name of executable created by any compiler
+
+b.
+"a" is the name of the executable and out is the exension on any Unix
+
+c.
+An executable file format, default on Linux even today
+
+d.
+"a" is the name of the executable and out is the exension only on Linux
+
+e.
+"a" is the name of the executable and out is the exension
+
+f.
+An executable file format, no longer in use on Linux
+[1:52 pm, 16/01/2022] Pande Rutvik: f
+[1:53 pm, 16/01/2022] 1.094.795.585: What is garbage memory ?
+
+a.
+Memory allocated to a program, but reallocated
+
+b.
+Memory containing garbabe values
+
+c.
+Memory allocated to a program, but freed
+
+d.
+Memory allocated to a program, but freed and reallocated
+
+e.
+Memory allocated to a program, but without any pointer pointing to it in the program
+
+f.
+Corrupt memory cells
+[1:53 pm, 16/01/2022] Pande Rutvik: e
+[1:54 pm, 16/01/2022] 1.094.795.585: What does 'the stack pointer' in x86 like processors represent?
+
+a.
+Just a register storing an address, that is incremented by pop and decremented by push
+
+b.
+A register storing a stack of the the operating system
+
+c.
+A register storing a pointer to a stack
+
+d.
+A register storing a pointer to the operating system stack
+
+e.
+Just a register storing an address, that is decremented by pop and incremented by push
+
+f.
+A data structure of stack of integers
+
+g.
+A data structure of stack of real numbers
+
+h.
+A register storing a stack
+[1:55 pm, 16/01/2022] Pande Rutvik: a
+[1:55 pm, 16/01/2022] 1.094.795.585: Select correct statement about memory address translation on 8086
+
+a.
+virtual address segment * 4
+
+b.
+virtual address + segment * 16
+
+c.
+physical address
+
+d.
+virtual address + segment << 16
+
+e.
+physical address
+
+f.
+physical address
+
+g.
+physical address
+
+h.
+virtual address + segment * 4
+[1:56 pm, 16/01/2022] Pande Rutvik: b

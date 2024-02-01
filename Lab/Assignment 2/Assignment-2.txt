@@ -1,0 +1,18 @@
+Assignment: Write a Shell
+
+Write a shell. The shell should have following features:
+
+Read commands in a loop and run commands without complete path names and handle arguments+options for commands(2 marks)
+
+Show prompt with current working directory in the prompt and allow user to change the prompt to a particular string and revert back to CWD prompt (2 marks)
+
+Handle all possible user input errors  (1 marks)
+
+done -> Exit gracefully on typing "exit" or ctrl-D  (1 marks)
+
+Allow users to set a variable called PATH which is used for searching the list of executables (just like in the case of 'bash' shell)   (2 marks)
+
+Use the keys : up and down array key and run a particular command from history (2 marks for this)
+
+Submission:
+submit a single file called shell.c

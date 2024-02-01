@@ -1,0 +1,101 @@
+Select correct statement about memory address translation on 8086
+d. Out of 20 bits of address, 16 bits are contributed by segment register
+
+What is program counter?
+a.A register in CPU that stores address of next instruction in Memory
+
+Map the name with OS or kernel
+GNU Hurd Kernel
+Linux	 Kernel
+Ubuntu	 OS
+macOS	 OS
+Mach	 Kernel
+
+Match the register pairs
+SI	DS
+BP	SS
+IP	CS
+DI	DS
+SP	SS
+
+What does a compiler do ?
+converts the source code into machine code, and saves machine code in a file on hard disk. The output file has formatting determined by the OS+processor.
+
+Select correct statement about memory address translation on 8086
+b. size of address space is 1 MB
+
+Select correct statement about memory address translation on 8086
+g.virtual address + segment << 16
+
+In which program is a dangling pointer being dereferenced ?
+c.int main() { int *p = NULL, j; p = &j; p = 20; }
+
+What is meant by formatting a disk/partition?
+c. creating layout of empty directory tree/graph data structure
+
+Does this program segfault?
+int main() {
+int *p = NULL, j;
+j = 30;
+p = &j;
+*p = 100;
+}
+a. No
+
+What is a dangling pointer ?
+a. A pointer which is neither NULL nor pointing to an address within address space of the program.
+
+What does installation of OS mean?
+a. Copying the OS code from installation medium to target medium(like Hard disk)
+
+What does 'the stack pointer' in x86 like processors represent?
+e. Just a register storing an address, that is decremented by pop and incremented by push
+
+In which program is a dangling pointer being dereferenced ?
+b. int main() { int *p = NULL, *q, i, j = 20; q = &j, *p = *q; *p = 30; }
+
+What is a.out ?
+
+
+In which program here do you have a dangling pointer at the end of program?
+b. int main() { int *p, *q, i, j; p = &i; i=j=20; *p=30;}
+
+Why does 8086 have segments?
+c. Processor manufacturers wanted system developers to visualize a program divided into "segments", each segment addressed by a segment register
+
+What is garbage memory ?
+a. Memory allocated to a program, but without any pointer pointing to it in the program
+
+Does this program segfault?
+int main() {
+int *p = NULL, j;
+j = 30;
+*p = 100;
+p = &j;
+}
+b. Yes
+
+In which program here do you have a dangling pointer at the end of program?
+int main() { int *p, j; j=20; }
+
+Match the pairs
+f. ELF -> no extension
+
+Select the correct statement about FLAGS register
+d. values in the FLAGS register are set automatically by kernel depending on result of the current machine instruction
+
+Select the option which best describes what the CPU does during it's powered ON lifetime
+e. Fetch instructions specified by location given by PC, Decode and Execute it, during execution increment PC or change PC as per the instruction itself, repeat
+
+Where is the boot loader located normally?
+d. Sector zero of the boot device
+
+Match the pairs
+COM	DOS
+COFF	Many Unixes
+CMD	Windows
+GOFF	IBM MVS
+PE	DOS
+ELF	Many Unixes
+a.out	Many Unixes
+

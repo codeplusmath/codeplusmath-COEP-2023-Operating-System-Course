@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1642317075 source:e:\book\vi sem\os\test\main.c
+	<stdio.h>
+	<stdlib.h>
+

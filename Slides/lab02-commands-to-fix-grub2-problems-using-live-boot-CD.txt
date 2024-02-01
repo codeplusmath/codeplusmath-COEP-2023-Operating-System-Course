@@ -1,0 +1,16 @@
+Boot from a live CD.
+Go to terminal.
+
+Find out the partition for your UBUNTU installation. Let's say it is /dev/sda5
+
+$ sudo mount /dev/sda5 /tmp/a
+$ cd /tmp/a
+$ mount -t proc /proc ./proc
+$ sudo mount --rbind /dev ./dev
+$ sudo mount --rbind /run ./run
+$ sudo mount --rbind /sys ./sys
+$ sudo chroot .
+# update-initramfs  -c -k 5.11.0-44-generic
+# update-grub
+# mount /dev/sda1 ./boot/efi/ # optional
+# grub-install /dev/sda 

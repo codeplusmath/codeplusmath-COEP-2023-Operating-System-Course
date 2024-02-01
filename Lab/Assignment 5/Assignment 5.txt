@@ -1,0 +1,14 @@
+(Optional Assignment) xv6 system call
+This assignment will be seriously checked for plagiarism.
+
+Add a system call to xv6 kernel that does the following:
+
+returns a count of {number of processes forked so far, current count of RUNNABLE processes, current count of SLEEPING processes, current count of ZOMBIE processes, total number of times scheduling was done for processes, number of keyboard interrupts so far, number of total traps so far}
+
+Add an application program that does the above system call and prints the results. Name the application program as newsyscall.c
+
+Submit a "git diff" patch with the master branch. Filename should be MISID.patch
+
+Note: A single line of un-necessary change seen in "git diff" will bring a penalty of 1 mark each.  This is being warned to you as there is a tendency to change (like add space, write comment, add empty line) places of code that are not relevant to your work.
+
+As of now, you can ignore the issues related to "locks" and "synchronization", and little inconsistencies arising due to this in your results may also be ignored.

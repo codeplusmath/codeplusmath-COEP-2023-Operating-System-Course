@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD printout 1.0 Strict//EN"
+  "http://www.w3.org/TR/printout1/DTD/printout1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/printout">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+@media print
+ {
+     div{
+         page-break-inside: avoid;
+     }
+ }
+ 
+ body {
+     font-family: verdana, helvetica, sans-serif;
+     background-color: #fff;
+     color: #000;
+     font-size: 12px;
+ }
+ 
+ div {
+   display: block;
+ }
+ 
+ .mcanswer {
+   line-height: 2em;
+ }
+ 
+ .question {
+     border: 1px solid #ddd;
+     margin: 5px;
+     padding: 3px;
+ }
+ 
+ .multichoice {
+     list-style-type: lower-alpha;
+ }
+ 
+ .questionlist {
+     list-style-type: decimal;
+ }
+ 
+ .category {
+   font-size: 1.5em ; font-weight: bold;
+ }
+ 
+ .questiontext {
+   font-weight: bold;
+ }
+ 
+ .questiontype {
+   font-size: 0.75em;
+ }
+ 
+ .points {
+   font-size: 0.75em;
+   font-weight: bold;
+ }
+ 
+ .wrong {
+   color: crimson;
+ }
+ 
+ .correct {
+   color: green;
+ }
+</style>
+</head>
+<body>
+<div><p><li class="questiontext">Arrange the following in the correct order of execution (w.r.t. 'init')</li></p><ul><li>userinit() is called-> <span class="correct">1</span></li><li>'initcode' struct proc is created-> <span class="correct">2</span></li><li>'initcode' process is marked RUNNABLE-> <span class="correct">3</span></li><li>mpmain() calls scheduler()-> <span class="correct">4</span></li><li>scheduler() schedules initcode() process-> <span class="correct">5</span></li><li>initcode() returns in forkret()-> <span class="correct">6</span></li><li>initcode() returns from trapret()-> <span class="correct">7</span></li><li>initcode() calls exec("/init", ...)-> <span class="correct">8</span></li></ul><p class="questiontype">init related execution sequence  (Matching)</p><hr></div>
+<div><p><li class="questiontext">Map the virtual address to physical address in xv6</li></p><ul><li>KERNBASE-> <span class="correct">0</span></li><li>KERNLINK-> <span class="correct">0x100000</span></li><li>80108000-> <span class="correct">0x108000</span></li><li>0xFE000000-> <span class="correct">0xFE000000</span></li><li>-> <span class="correct">0x80000000</span></li></ul><p class="questiontype">kernel memory mappings  (Matching)</p><hr></div>
+<div><p><li class="questiontext">The approximate number of page frames created by kinit1 is</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">3000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">1000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">2000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">4000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">10 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">4 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">16 </span></li></ul>
+<p class="questiontype">#kinit1's pages  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">Select all the correct statements about initcode</li></p><ul class="multichoice">
+ <li><span class="correct points">(25%)  </span><span class="mcanswer">code of 'initcode' is loaded along with the kernel during booting </span></li> <li><span class="correct points">(25%)  </span><span class="mcanswer">the size of 'initcode' is 2c </span></li> <li><span class="correct points">(25%)  </span><span class="mcanswer">The data and stack of initcode is mapped to one single page in userinit() </span></li> <li><span class="correct points">(25%)  </span><span class="mcanswer">initcode essentially calls exec("/init",...) </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">initcode is the 'init' process </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">code of initcode is loaded in memory by the kernel during userinit() </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">code of initcode is loaded at virtual address 0 </span></li></ul>
+<p class="questiontype">correct about initcode  (Multiple choice)</p><hr></div>
+<div><p><li class="questiontext">Which of the following is  DONE by allocproc() ?</li></p><ul class="multichoice">
+ <li><span class="correct points">(20%)  </span><span class="mcanswer">Select an UNUSED struct proc for use </span></li> <li><span class="correct points">(20%)  </span><span class="mcanswer">allocate PID to the process </span></li> <li><span class="correct points">(20%)  </span><span class="mcanswer">allocate kernel stack for the process </span></li> <li><span class="correct points">(20%)  </span><span class="mcanswer">setup the trapframe and context pointers appropriately </span></li> <li><span class="correct points">(20%)  </span><span class="mcanswer">ensure that the process starts in forkret() </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">ensure that the process starts in trapret() </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">setup kernel memory mappings for the process </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">setup the contents of the trapframe of the process properly </span></li></ul>
+<p class="questiontype">not done by allocproc()  (Multiple choice)</p><hr></div>
+<div><p><li class="questiontext">Which of the following is  done by mappages()?</li></p><ul class="multichoice">
+ <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">create page table mappings for the range given by "va" and "va + size" </span></li> <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">allocate page table if required </span></li> <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">create page table mappings to the range given by "pa" and "pa + size" </span></li> <li><span class="wrong points">(-50%)  </span><span class="mcanswer">allocate page directory if required </span></li> <li><span class="wrong points">(-50%)  </span><span class="mcanswer">allocate page frame if required </span></li></ul>
+<p class="questiontype">not done by mappages  (Multiple choice)</p><hr></div>
+<div><p><li class="questiontext">What does seginit() do?</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">Adds two additional entries to GDT corresponding to Code and Data segments, but to be used in privilege level 3 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Adds two additional entries to GDT corresponding to Code and Data segments, but to be used in privilege level 0 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Nothing significant, just repetition of earlier GDT setup  but with 2-level paging setup done </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Nothing significant, just repetition of earlier GDT setup  but with free frames list created now </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Nothing significant, just repetition of earlier GDT setup  but with kernel page table allocated now </span></li></ul>
+<p class="questiontype">seginit() does?  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">Select the statement that most correctly describes what setupkvm() does</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">creates a 2-level page table setup with virtual->physical mappings specified in the kmap[] global arrray </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">creates a 2-level page table setup with virtual->physical mappings specified in the kmap[] global arrray and makes kpgdir point to it </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">creates a 2-level page table for the use of the kernel, as specified in gdtdesc </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">creates a 1-level page table for the use by the kernel, as specified in kmap[] global array </span></li></ul>
+<p class="questiontype">setupkvm()'s job  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">What does userinit() do ?</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">sets up the 'initcode' process to start execution in forkret() </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">sets up the 'init' process to start execution in forkret() </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">sets up the 'initcode' process to start execution in trapret() </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">sets up the 'initcode' process to start execution in forkret () </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">initializes the users </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">initializes the process 'init' and starts executing it </span></li></ul>
+<p class="questiontype">userinit() does?  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">The variable 'end' used as argument to kinit1 has the value</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">801154a8 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">80110000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">80000000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">81000000 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">80102da0 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">8010a48c </span></li></ul>
+<p class="questiontype">value of end  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">Does exec() code around clearptau() lead to wastage of one page frame?</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">yes </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">no </span></li></ul>
+<p class="questiontype">wastage in exec?  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">exec() does this: curproc-&gt;tf-&gt;eip = elf.entry, but userinit() does this: p-&gt;tf-&gt;eip = 0; Select all the statements from below, that collectively explain this</li></p><ul class="multichoice">
+ <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">exec() loads from ELF file and the address of first instruction to be executed is given by 'entry' </span></li> <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">In userinit() the function inituvm() has mapped the code of 'initcode' to be starting at virtual address 0 </span></li> <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">the initcode is created using objcopy, which discards all relocation information and symbols (like entry) </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">the 'entry' in initcode is anyways 0 </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">the code of 'initcode' is loaded at physical address 0 </span></li> <li><span class="wrong points">(-33.33333%)  </span><span class="mcanswer">elf.entry is anyways 0, so both statements mean the same </span></li></ul>
+<p class="questiontype">why different eip settings?  (Multiple choice)</p><hr></div>
+<div><p><li class="questiontext">Why is there a call to kinit2? Why is it not merged with knit1?</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">knit2 refers to virtual addresses beyond 4MB, which are not mapped before kvalloc() is called </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Because there is a limit on the values that the argumets to knit1() can take. </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">When kinit1() is called there is a need for few page frames, but later knit2() is called to serve need of more page frames </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">call to seginit() makes it possible to actually use PHYSTOP in argument to kinit2() </span></li></ul>
+<p class="questiontype">why kinit2()?  (Multiple choice / One answer only)</p><hr></div>
+</body>
+</html>

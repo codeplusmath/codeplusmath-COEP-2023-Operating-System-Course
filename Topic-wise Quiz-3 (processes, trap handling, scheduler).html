@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD printout 1.0 Strict//EN"
+  "http://www.w3.org/TR/printout1/DTD/printout1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/printout">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+@media print
+ {
+     div{
+         page-break-inside: avoid;
+     }
+ }
+ 
+ body {
+     font-family: verdana, helvetica, sans-serif;
+     background-color: #fff;
+     color: #000;
+     font-size: 12px;
+ }
+ 
+ div {
+   display: block;
+ }
+ 
+ .mcanswer {
+   line-height: 2em;
+ }
+ 
+ .question {
+     border: 1px solid #ddd;
+     margin: 5px;
+     padding: 3px;
+ }
+ 
+ .multichoice {
+     list-style-type: lower-alpha;
+ }
+ 
+ .questionlist {
+     list-style-type: decimal;
+ }
+ 
+ .category {
+   font-size: 1.5em ; font-weight: bold;
+ }
+ 
+ .questiontext {
+   font-weight: bold;
+ }
+ 
+ .questiontype {
+   font-size: 0.75em;
+ }
+ 
+ .points {
+   font-size: 0.75em;
+   font-weight: bold;
+ }
+ 
+ .wrong {
+   color: crimson;
+ }
+ 
+ .correct {
+   color: green;
+ }
+</style>
+</head>
+<body>
+<div><p><li class="questiontext">Match the elements of C program to their place in memory</li></p><ul><li>Global variables-> <span class="correct">Data</span></li><li>Local Static variables-> <span class="correct">Data</span></li><li>Global Static variables-> <span class="correct">Data</span></li><li>Local Variables-> <span class="correct">Stack</span></li><li>Arguments-> <span class="correct">Stack</span></li><li>Malloced Memory-> <span class="correct">Heap</span></li><li>Function code-> <span class="correct">Code</span></li><li>Code of main()-> <span class="correct">Code</span></li><li>#include files-> <span class="correct">No memory needed</span></li><li>#define MACROS-> <span class="correct">No Memory needed</span></li><li>-> <span class="correct">Main_Code</span></li></ul><p class="questiontype">C program to segment  (Matching)</p><hr></div>
+<div><p><li class="questiontext">Match the File descriptors to their meaning</li></p><ul><li>0-> <span class="correct">Standard Input</span></li><li>1-> <span class="correct">Standard output</span></li><li>2-> <span class="correct">Standard error</span></li></ul><p class="questiontype">FDs to meaning  (Matching)</p><hr></div>
+<div><p><li class="questiontext">Match the MACRO with it's meaning</li></p><ul><li>PHYSTOP-> <span class="correct">224 MB</span></li><li>KERNBASE-> <span class="correct">2 GB</span></li><li>KERNLINK-> <span class="correct">2.224 GB</span></li><li>-> <span class="correct">2.1 GB</span></li><li>-> <span class="correct">2 MB</span></li></ul><p class="questiontype">Meaning of MACROS in MM (wrong choice 2.224)  (Matching)</p><hr></div>
+<div><p><li class="questiontext">Match the names of PCB structures with kernel</li></p><ul><li>xv6-> <span class="correct">struct proc</span></li><li>linux-> <span class="correct">struct task_struct</span></li><li>-> <span class="correct">struct process</span></li><li>-> <span class="correct">struct task_structure</span></li><li>-> <span class="correct">struct process_struct</span></li></ul><p class="questiontype">PCB names  (Matching)</p><hr></div>
+<div><p><li class="questiontext">Arrange in correct order, the files involved in execution of system call</li></p><ul><li>usys.S-> <span class="correct">1</span></li><li>vectors.S-> <span class="correct">2</span></li><li>trapasm.S-> <span class="correct">3</span></li><li>trap.c-> <span class="correct">4</span></li></ul><p class="questiontype">Syscall order correctly  (Matching)</p><hr></div>
+<div><p><li class="questiontext">A process blocks itself means</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">The kernel code of system call, called by the process, moves the process to a waiting queue and calls scheduler </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">The application code calls the scheduler </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">The kernel code of system call calls scheduler </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">The kernel code of an interrupt handler, moves the process to a waiting queue and calls scheduler </span></li></ul>
+<p class="questiontype">Blocking means  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">What will be the output of this program
+int main() {
+  int fd;
+  printf("%d ",   open("/etc/passwd", O_RDONLY));
+  close(1);
+  fd = printf("%d ", open("/etc/passwd", O_RDONLY));
+  close(fd);
+   fd = printf("%d ", open("/etc/passwd", O_RDONLY));
+}</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">3 1 1 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">3 4 5 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">3 1 2 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">1 1 1 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">2 2 2 </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">3 3 3 </span></li></ul>
+<p class="questiontype">FD output  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">Which of the following is not a task of the code of swtch() function</li></p><ul class="multichoice">
+ <li><span class="correct points">(50%)  </span><span class="mcanswer">Save the return value of the old context code </span></li> <li><span class="correct points">(50%)  </span><span class="mcanswer">Change the kernel stack location </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Save the old context </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Load the new context </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Jump to next context EIP </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Switch stacks </span></li></ul>
+<p class="questiontype">Not done by swtch()  (Multiple choice)</p><hr></div>
+<div><p><li class="questiontext">Which of the following state transitions are not possible?</li></p><ul class="multichoice">
+ <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">Ready ->  Terminated </span></li> <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">Waiting -> Terminated </span></li> <li><span class="wrong points">(-100%)  </span><span class="mcanswer">Running -> Waiting </span></li> <li><span class="correct points">(33.33333%)  </span><span class="mcanswer">Ready -> Waiting </span></li></ul>
+<p class="questiontype">Not possible state transition  (Multiple choice)</p><hr></div>
+<div><p><li class="questiontext">Select the odd one out</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">Kernel stack of new process to kernel stack of scheduler </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Process stack of running process to kernel stack of running process </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Kernel stack of running process to kernel stack of scheduler </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Kernel stack of scheduler to kernel stack of new process </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">Kernel stack of new process to Process stack of new process </span></li></ul>
+<p class="questiontype">Odd (stack transition) out  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">The "push 0" in vectors.S is</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">Place for the error number value </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">To be filled in as the return value of the system call </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">A placeholder to match the size of struct trapframe </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">To indicate that it's a system call and not a hardware interrupt </span></li></ul>
+<p class="questiontype">push 0 for errno  (Multiple choice / One answer only)</p><hr></div>
+<div><p><li class="questiontext">The trapframe, in xv6, is built by the</li></p><ul class="multichoice">
+ <li><span class="correct points">(100%)  </span><span class="mcanswer">hardware, vectors.S, trapasm.S </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">vectors.S, trapasm.S </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">hardware, vectors.S </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">hardware, trapasm.S </span></li> <li><span class="wrong points">(0%)  </span><span class="mcanswer">hardware, vectors.S, trapasm.S, trap() </span></li></ul>
+<p class="questiontype">Who builds trapframe?  (Multiple choice / One answer only)</p><hr></div>
+</body>
+</html>

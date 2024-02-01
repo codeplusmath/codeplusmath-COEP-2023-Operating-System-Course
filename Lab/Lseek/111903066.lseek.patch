@@ -1,0 +1,120 @@
+diff --git a/fcntl.h b/fcntl.h
+index d565483..06b36ba 100644
+--- a/fcntl.h
++++ b/fcntl.h
+@@ -2,3 +2,7 @@
+ #define O_WRONLY  0x001
+ #define O_RDWR    0x002
+ #define O_CREATE  0x200
++
++#define SEEK_SET 0
++#define SEEK_CUR 1
++#define SEEK_END 2
+diff --git a/syscall.c b/syscall.c
+index ee85261..bb96e30 100644
+--- a/syscall.c
++++ b/syscall.c
+@@ -103,6 +103,7 @@ extern int sys_unlink(void);
+ extern int sys_wait(void);
+ extern int sys_write(void);
+ extern int sys_uptime(void);
++extern int sys_lseek(void);
+ 
+ static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+@@ -126,6 +127,7 @@ static int (*syscalls[])(void) = {
+ [SYS_link]    sys_link,
+ [SYS_mkdir]   sys_mkdir,
+ [SYS_close]   sys_close,
++[SYS_lseek]   sys_lseek,
+ };
+ 
+ void
+diff --git a/syscall.h b/syscall.h
+index bc5f356..93fbf00 100644
+--- a/syscall.h
++++ b/syscall.h
+@@ -20,3 +20,4 @@
+ #define SYS_link   19
+ #define SYS_mkdir  20
+ #define SYS_close  21
++#define SYS_lseek  22
+diff --git a/sysfile.c b/sysfile.c
+index bfe61b7..9929669 100644
+--- a/sysfile.c
++++ b/sysfile.c
+@@ -16,6 +16,9 @@
+ #include "file.h"
+ #include "fcntl.h"
+ 
++#define SEEK_SET 0
++#define SEEK_CUR 1
++#define SEEK_END 2
+ // Fetch the nth word-sized system call argument as a file descriptor
+ // and return both the descriptor and the corresponding struct file.
+ static int
+@@ -442,3 +445,43 @@ sys_pipe(void)
+   fd[1] = fd1;
+   return 0;
+ }
++
++int
++sys_lseek(void)
++{
++	struct file * fp;
++	uint newoff, file_size, whence;
++	int offset;
++
++	newoff = 0;
++
++	if(argfd(0, 0, &fp) < 0 || 
++		argint(1, &offset) < 0 || 
++		argint(2, (int *)&whence) < 0) return -1;
++	
++	if(fp->type != FD_INODE) return 0;
++	
++	ilock(fp->ip);
++	file_size = fp->ip->size;
++	iunlock(fp->ip);
++	
++	switch(whence){
++		case SEEK_SET:
++			newoff = 0;
++			break;
++		case SEEK_CUR:
++			newoff = fp->off;
++			break;
++		case SEEK_END:
++			newoff = file_size;
++			break;
++		default:
++			return -1;
++			break;
++	}
++
++	if(((newoff + offset)<0) || ((newoff + offset)< file_size)) return -1;
++
++	fp->off = newoff + offset;
++	return fp->off;
++}
+diff --git a/user.h b/user.h
+index 4f99c52..d05ba2c 100644
+--- a/user.h
++++ b/user.h
+@@ -23,6 +23,7 @@ int getpid(void);
+ char* sbrk(int);
+ int sleep(int);
+ int uptime(void);
++int lseek(int, int, int);
+ 
+ // ulib.c
+ int stat(const char*, struct stat*);
+diff --git a/usys.S b/usys.S
+index 8bfd8a1..6244300 100644
+--- a/usys.S
++++ b/usys.S
+@@ -29,3 +29,4 @@ SYSCALL(getpid)
+ SYSCALL(sbrk)
+ SYSCALL(sleep)
+ SYSCALL(uptime)
++SYSCALL(lseek)

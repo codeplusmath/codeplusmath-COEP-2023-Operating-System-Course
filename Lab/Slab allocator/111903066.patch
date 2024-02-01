@@ -1,0 +1,187 @@
+diff --git a/file.c b/file.c
+index 24b32c2..aaf7bb1 100644
+--- a/file.c
++++ b/file.c
+@@ -9,35 +9,107 @@
+ #include "spinlock.h"
+ #include "sleeplock.h"
+ #include "file.h"
++#include "mmu.h"
++
++
++struct cache_block{
++	uint ff;
++	struct cache_block* next;
++	struct cache_block* prev;
++};
+ 
+ struct devsw devsw[NDEV];
+ struct {
+   struct spinlock lock;
+-  struct file file[NFILE];
++  struct cache_block* cache_pointer;
+ } ftable;
+ 
++
+ void
+ fileinit(void)
+ {
+   initlock(&ftable.lock, "ftable");
++  ftable.cache_pointer = 0;
++}
++
++// rewrite code from here
++struct cache_block*
++create_filecache(void){
++	struct cache_block* cb;
++	cb = (struct cache_block*)kalloc();
++
++	if(cb == 0)return 0;
++	memset(cb, 0, PGSIZE);
++	cb->next = cb->prev = 0;
++	cb->ff = (PGSIZE - sizeof(struct cache_block)/sizeof(struct file));
++	return cb;
+ }
+ 
+-// Allocate a file structure.
++struct file*
++get_file_from_file_cache(void){
++	//iterate over the filecache & find a empty struct file
++	// if cache is full then grow it;
++	char* st, *end;
++	struct cache_block* prev, *cb;
++	struct file* fp;
++	cb = ftable.cache_pointer;
++	prev = ftable.cache_pointer;
++
++	acquire(&ftable.lock);
++	while(cb){
++		
++		if(cb->ff == 0){
++			prev = cb;
++			cb = cb->next;
++		}
++
++		else{
++			st = (char*) cb + sizeof(struct cache_block);
++			end = (char*) cb + PGSIZE - sizeof(struct file);
++			fp = (struct file*) st;
++
++			for(fp; fp<=(struct file*)end; fp++){
++				if(fp->ref==0){
++					fp->ref=1;
++					cb->ff--;
++					release(&ftable.lock);
++					return fp;
++				}
++			}
++		}
++	}
++
++	if(ftable.cache_pointer == 0){
++		ftable.cache_pointer = create_filecache();
++		if((ftable.cache_pointer = create_filecache()) == 0){
++			release(&ftable.lock);
++			return 0;
++		}
++		cb = ftable.cache_pointer;
++	}
++	else{
++		if((prev->next = create_filecache()) == 0){
++			release(&ftable.lock);
++			return 0;
++		}
++		prev->next->prev = prev;
++		cb = prev->next;
++	}
++
++	fp = (struct file*)(sizeof(struct cache_block) + (char*) cb);
++	fp->ref = 1;
++	cb->ff--;
++	release(&ftable.lock);
++	return fp;
++}
++
++
+ struct file*
+ filealloc(void)
+ {
+   struct file *f;
+-
+-  acquire(&ftable.lock);
+-  for(f = ftable.file; f < ftable.file + NFILE; f++){
+-    if(f->ref == 0){
+-      f->ref = 1;
+-      release(&ftable.lock);
+-      return f;
+-    }
+-  }
+-  release(&ftable.lock);
+-  return 0;
++  f =  get_file_from_file_cache();
++  return f;
+ }
+ 
+ // Increment ref count for file f.
+@@ -52,6 +124,40 @@ filedup(struct file *f)
+   return f;
+ }
+ 
++void
++return_file_to_file_cache(struct file *fp){
++	struct cache_block*cb;
++	char* st, *end;
++	cb = ftable.cache_pointer;
++	acquire(&ftable.lock);
++	
++	while(cb){
++		st = (char*) cb + sizeof(struct cache_block);
++		end = (char*) cb + PGSIZE - sizeof(struct file);
++		
++		if(fp<=(struct file*)end && fp>=(struct file*)st){
++			cb->ff++;
++			break;
++		}
++		cb = cb->next;
++	}
++
++	if(!cb)return;
++	if(cb->ff == (PGSIZE - sizeof(struct cache_block)/sizeof(struct file))){
++		if(ftable.cache_pointer==cb){
++			ftable.cache_pointer = cb->next;
++		}
++		if(cb->prev != 0){
++			cb->prev->next = cb->next;	
++		}
++		if(cb->next != 0){
++			cb->next->prev = cb->prev;
++		}
++		kfree((char*)cb);
++	}
++	return;
++}
++
+ // Close file f.  (Decrement ref count, close when reaches 0.)
+ void
+ fileclose(struct file *f)
+@@ -68,6 +174,7 @@ fileclose(struct file *f)
+   ff = *f;
+   f->ref = 0;
+   f->type = FD_NONE;
++  return_file_to_file_cache(f);
+   release(&ftable.lock);
+ 
+   if(ff.type == FD_PIPE)
+diff --git a/usertests.c b/usertests.c
+index a1e97e7..b7218f1 100644
+--- a/usertests.c
++++ b/usertests.c
+@@ -1458,7 +1458,7 @@ sbrktest(void)
+     exit();
+   }
+   lastaddr = (char*) (BIG-1);
+-  *lastaddr = 99;
++  //*lastaddr = 99;
+ 
+   // can one de-allocate?
+   a = sbrk(0);

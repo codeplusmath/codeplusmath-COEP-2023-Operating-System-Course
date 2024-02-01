@@ -1,0 +1,86 @@
+*** arch/x86/entry/syscalls/syscall_64.tbl	2022-02-09 16:31:22.755822455 +0530
+--- ../old/linux-5.11.9/arch/x86/entry/syscalls/syscall_64.tbl	2021-03-24 16:24:19.000000000 +0530
+***************
+*** 363,370 ****
+  439	common	faccessat2		sys_faccessat2
+  440	common	process_madvise		sys_process_madvise
+  441	common	epoll_pwait2		sys_epoll_pwait2
+- 442	common	ancestor		sys_ancestor
+- 443	common	hello		sys_hello
+  
+  #
+  # Due to a historical design error, certain syscalls are numbered differently
+--- 363,368 ----
+*** include/linux/syscalls.h	2022-02-09 16:29:54.167554437 +0530
+--- ../old/linux-5.11.9/include/linux/syscalls.h	2021-03-24 16:24:19.000000000 +0530
+***************
+*** 1364,1370 ****
+  		int __user *optlen);
+  int __sys_setsockopt(int fd, int level, int optname, char __user *optval,
+  		int optlen);
+- 
+- asmlinkage long sys_ancestor(pid_t processid);
+- asmlinkage long sys_hello(void);
+  #endif
+--- 1364,1367 ----
+*** ancestor/ancestor.c	2022-02-08 19:01:52.285058771 +0530
+--- hello/hello.c	2022-02-09 16:27:15.424229571 +0530
+***************
+*** 1,16 ****
+  #include <linux/kernel.h>
+  #include <linux/syscalls.h>
+- #include <linux/sched.h>
+  
+! SYSCALL_DEFINE1(ancestor, pid_t, processid)
+  {
+! 	struct task_struct *p = current;
+! 	p = find_task_by_vpid(processid);
+! 	printk("Ancestor Process ID's");
+! 	while(p!=NULL || p->pid!=0){
+! 		p = p->parent;
+! 		printk("Process = %s : Process ID = %d", p->comm, p->pid);		
+! 	}
+  	return 0;
+- 
+  }
+--- 1,8 ----
+  #include <linux/kernel.h>
+  #include <linux/syscalls.h>
+  
+! SYSCALL_DEFINE0(hello)
+  {
+! 	printk("This is dummy process. I added ancestory syscall but userland program runs infinitly. Diff command for ancestory syscall is in README.md");
+  	return 0;
+  }
+7d6
+< #include <stdlib.h>
+9c8
+< #define __NR_ancestor 442
+---
+> #define __NR_hello 443
+11,12c10,12
+< long ancestor_syscall(pid_t processid){
+< 	return syscall(__NR_ancestor, processid);
+---
+> long hello_syscall(void)
+> {
+> 	return syscall(__NR_hello);
+15,19c15,26
+< int main(int argc, char * argv[]){
+< 	pid_t pid;
+< 	printf("Enter Process ID: ");
+< 	scanf("%d", &pid);
+< 	ancestor_syscall(pid);
+---
+> int main(int argc, char*argv[])
+> {
+> 	long activity;
+> 	activity = hello_syscall();
+> 
+> 	if(activity < 0){
+> 		perror("SYS_hello failed\n");
+> 	}
+> 	else{
+> 		printf("Success\n");
+> 	}
+> 

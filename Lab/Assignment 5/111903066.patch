@@ -1,0 +1,168 @@
+diff --git a/.cvsignore b/.cvsignore
+old mode 100644
+new mode 100755
+diff --git a/.dir-locals.el b/.dir-locals.el
+old mode 100644
+new mode 100755
+diff --git a/.gdbinit.tmpl b/.gdbinit.tmpl
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/Makefile b/Makefile
+index 2676e8e..cd59b8c 100755
+--- a/Makefile
++++ b/Makefile
+@@ -182,6 +182,7 @@ UPROGS=\
+ 	_wc\
+ 	_zombie\
+ 	_head\
++	_testprogram\
+ 
+ fs.img: mkfs README $(UPROGS)
+ 	./mkfs fs.img README $(UPROGS)
+diff --git a/mysyscall.h b/mysyscall.h
+new file mode 100755
+index 0000000..743db19
+--- /dev/null
++++ b/mysyscall.h
+@@ -0,0 +1,10 @@
++// this data-type will used to return our syscall 
++struct retinsyscall {
++  int forked_c;
++  int runnable_c;
++  int sleeping_c;
++  int zombie_c;
++  int sched_times;
++  int keybd_inter;
++  int traps_c;
++};
+diff --git a/syscall.c b/syscall.c
+index ee85261..538b136 100755
+--- a/syscall.c
++++ b/syscall.c
+@@ -6,6 +6,7 @@
+ #include "proc.h"
+ #include "x86.h"
+ #include "syscall.h"
++#include "mysyscall.h"
+ 
+ // User code makes a system call with INT T_SYSCALL.
+ // System call number in %eax.
+@@ -103,6 +104,7 @@ extern int sys_unlink(void);
+ extern int sys_wait(void);
+ extern int sys_write(void);
+ extern int sys_uptime(void);
++extern struct retinsyscall sys_mycall(void);
+ 
+ static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+@@ -126,6 +128,7 @@ static int (*syscalls[])(void) = {
+ [SYS_link]    sys_link,
+ [SYS_mkdir]   sys_mkdir,
+ [SYS_close]   sys_close,
++[SYS_mycall]  sys_mycall,
+ };
+ 
+ void
+diff --git a/syscall.h b/syscall.h
+index bc5f356..7a74695 100755
+--- a/syscall.h
++++ b/syscall.h
+@@ -20,3 +20,4 @@
+ #define SYS_link   19
+ #define SYS_mkdir  20
+ #define SYS_close  21
++#define SYS_mycall 22
+diff --git a/sysproc.c b/sysproc.c
+index 0686d29..b5005a1 100755
+--- a/sysproc.c
++++ b/sysproc.c
+@@ -6,6 +6,7 @@
+ #include "memlayout.h"
+ #include "mmu.h"
+ #include "proc.h"
++#include "mysyscall.h"
+ 
+ int
+ sys_fork(void)
+@@ -89,3 +90,39 @@ sys_uptime(void)
+   release(&tickslock);
+   return xticks;
+ }
++
++struct retinsyscall
++sys_mycall(void)
++{
++	struct retinsyscall result;
++	struct proc * p;
++	
++	result->forked_c = 0;
++	result->runnable_c = 0;
++	result->sleeping_c = 0;
++	result->zombie_c = 0;
++	result->sched_times = 0;
++	result->keybd_inter = 0;
++	result->trap_c = 0;
++
++	acquire(&ptable.lock);
++	for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
++	{
++		if(p->state == RUNNABLE)
++		{
++			result->runnable_c++;
++		}
++
++		if(p->state == SLEEPING)
++		{
++			result->sleeping_c++;
++		}
++		if(p->state == ZOMBIE)
++		{
++			result->zombie_c++;
++		}
++	}
++	release(&ptable.lock);
++
++	return result;
++}
+diff --git a/testprogram.c b/testprogram.c
+new file mode 100644
+index 0000000..1304ac8
+--- /dev/null
++++ b/testprogram.c
+@@ -0,0 +1,12 @@
++#include "types.h"
++#include "stat.h"
++#include "user.h"
++#include "mysyscall.h"
++
++int main()
++{
++	struct retinsyscall p;
++	p = mycall();
++	printf(1, "%d\n%d\n%d", p.runnable_c, p.sleeping_c, p.zombie_c);
++	return 0;
++}
+diff --git a/user.h b/user.h
+index 4f99c52..9bd28f2 100755
+--- a/user.h
++++ b/user.h
+@@ -23,6 +23,7 @@ int getpid(void);
+ char* sbrk(int);
+ int sleep(int);
+ int uptime(void);
++struct retinsyscall mycall(void);
+ 
+ // ulib.c
+ int stat(const char*, struct stat*);
+diff --git a/usys.S b/usys.S
+index 8bfd8a1..c81a420 100755
+--- a/usys.S
++++ b/usys.S
+@@ -29,3 +29,4 @@ SYSCALL(getpid)
+ SYSCALL(sbrk)
+ SYSCALL(sleep)
+ SYSCALL(uptime)
++SYSCALL(mycall)

@@ -1,0 +1,30 @@
+Where is the "end" variable, the first argument to knit1() declared? What's it's value?
+
+The PGROUNDUP does an adjustment on a page boundary, that is ceiling or floor?
+
+The free list maintained by xv6 is which type of a linked-list?
+
+What's the maximum possible value that PHYSTOP can be set to ?
+224 MB
+
+kalloc returns which free frame? (first/last/best/LIFO/FIFO/LFU/LRU/etc? )
+
+Describe in least possible words, the work done by kvmalloc.
+
+"kmap" stands for what?
+
+Which function does mappings in Page table ? (not page directory)
+
+Which function does mappings in Page directory?
+
+Which of the flags in PTE and PDE are actually used in xv6 and which flags are ignored?
+
+Why do you think memset() uses the stosl/stosb machine instructions, and does not run a loop to do the copy?
+
+Describe in least possible words, the work done by walkpgdir().
+
+While doing the page table mappings, using mappages() in which function is the actual page-frame allocated? (trick question).
+
+What's the use of kpgdir?
+
+In lcr3(V2P(kpgdir));  why is there a call to V2P?

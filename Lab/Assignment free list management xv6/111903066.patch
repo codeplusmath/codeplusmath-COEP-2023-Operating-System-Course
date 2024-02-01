@@ -1,0 +1,86 @@
+diff --git a/kalloc.c b/kalloc.c
+index 14cd4f4..f618505 100755
+--- a/kalloc.c
++++ b/kalloc.c
+@@ -13,14 +13,16 @@ void freerange(void *vstart, void *vend);
+ extern char end[]; // first address after kernel loaded from ELF file
+                    // defined by the kernel linker script in kernel.ld
+ 
++// changing code here, making singly linked list to doubly circular linked list
+ struct run {
++  struct run *prev;
+   struct run *next;
+ };
+ 
+ struct {
+   struct spinlock lock;
+   int use_lock;
+-  struct run *freelist;
++  struct run *freeliststart;
+ } kmem;
+ 
+ // Initialization happens in two phases.
+@@ -33,7 +35,9 @@ kinit1(void *vstart, void *vend)
+ {
+   initlock(&kmem.lock, "kmem");
+   kmem.use_lock = 0;
+-  freerange(vstart, vend);
++  // assign starting list to 0 i.e empty list
++  kmem.freeliststart = 0;
++  freerange(vstart, vend); 
+ }
+ 
+ void
+@@ -63,15 +67,23 @@ kfree(char *v)
+ 
+   if((uint)v % PGSIZE || v < end || V2P(v) >= PHYSTOP)
+     panic("kfree");
+-
+   // Fill with junk to catch dangling refs.
+   memset(v, 1, PGSIZE);
+-
+   if(kmem.use_lock)
+     acquire(&kmem.lock);
+-  r = (struct run*)v;
+-  r->next = kmem.freelist;
+-  kmem.freelist = r;
++  // checking if list is empty or not
++  if(kmem.freeliststart == 0){ 
++  	kmem.freeliststart = (struct run*)v;
++  	kmem.freeliststart->next = kmem.freeliststart->prev = kmem.freeliststart;
++  }
++  // lese add node
++  else{
++  	r = (struct run*)v;
++	r->next = kmem.freeliststart;
++	r->prev = kmem.freeliststart->prev;
++	kmem.freeliststart->prev->next = r;
++	kmem.freeliststart = r;
++  }
+   if(kmem.use_lock)
+     release(&kmem.lock);
+ }
+@@ -86,9 +98,20 @@ kalloc(void)
+ 
+   if(kmem.use_lock)
+     acquire(&kmem.lock);
+-  r = kmem.freelist;
+-  if(r)
+-    kmem.freelist = r->next;
++  r = kmem.freeliststart;
++  if(r){
++	  struct run *s = kmem.freeliststart ->prev;
++	  // if last node left
++	  if(kmem.freeliststart == s){
++	  	kmem.freeliststart = 0;
++	  }
++	  else{
++	  	r->next->prev = r->prev;
++		r->prev->next = r->next;
++		kmem.freeliststart = r->next;
++	  }
++	  r->prev = r->next = 0;
++  }
+   if(kmem.use_lock)
+     release(&kmem.lock);
+   return (char*)r;
